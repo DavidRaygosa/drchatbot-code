@@ -1,0 +1,812 @@
+/*--------------------------------------------------------------------------------------------------
+---------------------------------------START CHATBOT------------------------------------------------
+---------------------------------------------------------------------------------------------------*/
+
+// VARS CHATBOT
+
+$background-color: #e5e5e5; // DEFAULT #e5e5e5
+$primary-color: #0066BB; // DEFAULT #0066BB
+$white-color: white; // To background and text
+$icons-color-and-second-titles-color: #555; // DEFAULT #555;
+$thirh-color: #444; // DEFAULT #444;
+$icons-background-color: #EDEEF1; // DEFAULT #EDEEF1
+$text-color-categories: #364764; // DEFAULT #364764
+$text-color-backbutton: #3384C9; // DEFAULT #3384C9
+$text-color-newcategory: #777; // DEFAULT #777
+
+// MIXINS CHATBOT
+
+@mixin width_height($width, $height)
+{
+	width: $width;
+	height: $height;
+}
+
+@mixin grid_template($columns, $rows)
+{
+	grid-template-columns: $columns;
+	grid-template-rows: $rows;
+}
+
+@mixin boxes($padding, $border-radius, $background-color)
+{
+	padding: $padding;
+	border-radius: $border-radius;
+	background-color: $background-color;
+}
+
+#general-container
+{
+	display: flex;
+	justify-content: space-between;
+	@include width_height(90%, 78%);
+	background-color: $background-color;
+	padding: 5%;
+	overflow-x: hidden;
+}
+
+.icon
+{
+	font-family: WebSymbolsRegular;
+}
+
+#container
+{
+	@include width_height(59%, 89%);
+	margin: 0px auto;
+	border: none;
+	@include boxes(2%, 10px, $white-color);
+	box-shadow: 0px 0px 5px #ccc;
+	overflow: hidden;
+}
+
+#logo
+{
+	@include width_height(100%, 10%);
+	padding-bottom: 2%;
+	border-bottom: 1px solid $primary-color;
+}
+
+#logo > img
+{
+	display: block;
+	margin: 0px auto;
+	@include width_height(42%, 100%);
+}
+
+#panel
+{
+	@include width_height(90%, 75%);
+	padding: 5%;
+}
+
+#panel-header
+{
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	@include width_height(100%, 12%);
+}
+
+#panel-header > a
+{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	@include width_height(48%, 100%);
+	margin-right: 2%;
+	opacity: 0.8;
+	color: $white-color;
+	border: none;
+	@include boxes(0, 5px, $primary-color);
+	outline: none;
+	transition: all 300ms;
+	cursor: pointer;
+}
+
+.focusMenu
+{
+  opacity: 1 !important;
+}
+
+#panel-header > a:hover
+{
+	opacity: 1;
+}
+
+#panel-container
+{
+	@include width_height(100%, 95%);
+	margin-top: 1%;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	border: 1px solid $primary-color;
+	@include boxes(0, 10px, transparent);
+}
+
+#panel-container::-webkit-scrollbar
+{
+	width: 5px;
+}
+
+#panel-container::-webkit-scrollbar-track {
+  
+}
+ 
+#panel-container::-webkit-scrollbar-thumb {
+  background-color: rgba(169,169,169,0.3);
+  outline: 1px solid slategrey;
+}
+
+/*------------------------------------------------------------------------------------------------
+----------------------------------- CREATE PANEL -------------------------------------------------
+------------------------------------------------------------------------------------------------*/
+
+#newCategorySelected
+{
+	margin-top: 2%;
+	margin-left: 2%;
+}
+
+#newCategorySelected > h2
+{ 
+	display: block;
+	font-size: 18px;
+	color: $text-color-newcategory;
+	margin-bottom: 1%;
+}
+
+#newCategorySelected > input[type="text"]
+{ 
+	display: block;
+	width: 80%;
+	outline: none;
+	border: none;
+	border: 1px solid #ccc;
+	@include boxes(2%, 5px, transparent);
+	margin-bottom: 2%;
+}
+
+.select-icon-category
+{
+	@include width_height(84%, 20%);
+}
+
+.select-icon-category > button
+{
+	width: 15%;
+	margin-right: 1%;
+	margin-bottom: 1%;
+	border:1px solid $primary-color;
+	@include boxes(1%, 5px, transparent);
+	outline: none;
+	color: $icons-color-and-second-titles-color;
+	cursor: pointer;
+	transition: all 300ms;
+}
+
+.select-icon-category > button:hover
+{
+	background-color: $primary-color;
+	color: $white-color;
+}
+
+#createNewCategory
+{
+	margin-top: 2%;
+	margin-bottom: 2%;
+	margin-right: 5%;
+	border: none;
+	@include boxes(2%, 5px, transparent);
+	color: $thirh-color;
+	border: 1px solid $primary-color;
+	transition: all 300ms;
+	cursor: pointer;
+}
+
+#createNewCategory:hover
+{
+	background-color: $primary-color;
+	transform: scale(0.9);
+	color: $white-color;
+}
+
+.focus:focus {
+  background-color: $primary-color !important;
+  color: $white-color !important;
+}
+
+.incompledFormChatbot
+{
+	border: 1px solid red !important;
+}
+
+#succesfullcreated
+{
+	display: inline;
+}
+
+.categorycreated
+{
+	color: $primary-color;
+}
+
+/*------------------------------------------------------------------------------------------------
+----------------------------------- MODIFY PANEL -------------------------------------------------
+------------------------------------------------------------------------------------------------*/
+
+#modifyCategorySelected
+{
+	display: flex;
+	align-items: flex-start;
+	flex-flow: row wrap;
+	margin-top: 2%;
+	margin-left: 2%;
+}
+
+.category-list
+{
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	list-style: none;
+	@include width_height(28%, 90px);
+	margin-bottom: 5%;
+	margin-right: 2.5%;
+	margin-left: 2.5%;
+	box-shadow: 8px 5px 10px rgba(0, 0, 0, 0.1);
+	cursor: pointer;
+	transition: all 300ms;
+	@include boxes(0, 10px, $white-color);
+}
+
+.category-list:hover
+{
+	background-color: $primary-color;
+}
+
+.category-list:hover > .name-category
+{
+	color: $white-color;
+}
+
+.icon-category
+{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 25px;
+	@include width_height(20%, 40%);
+	text-align: center;
+	margin-left: 5%;
+	margin-right: 5%;
+	background-color: $icons-background-color;
+	color: $primary-color;
+}
+
+.name-category
+{
+	font-size: 16px;
+	color: $text-color-categories;
+}
+
+.cate-frequent
+{
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
+	color: yellow;
+}
+
+/*------------------------------------------------------------------------------------------------
+----------------------------------- MODIFY ONE ---------------------------------------------------
+------------------------------------------------------------------------------------------------*/
+
+#modifyOneCategory
+{
+	display: flex;
+	align-items: flex-start;
+	flex-flow: row wrap;
+	width: 96%;
+	margin-top: 2%;
+	margin-left: 2%;
+}
+
+#modifyOneCategory-header
+{
+	display: grid;
+	@include grid_template(10% 4% 35% repeat(2, 18%) 21%, 100%);
+	grid-template-areas: 
+	"back icon name new button delete";
+	@include width_height(98%, 40px);
+	border-radius: 10px;
+	border-bottom: 1px solid #ccc;
+}
+
+#modifyOneCategory-header-back
+{
+	grid-area: back;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	@include width_height(55%, 30px);
+	outline: none;
+	border: none;
+	@include boxes(0, 5px, transparent);
+	border: 1px solid $primary-color;
+	color: $text-color-backbutton;
+	cursor: pointer;
+	transition: all 300ms;
+}
+
+#modifyOneCategory-header-back:hover
+{
+	transform: scale(0.9);
+}
+
+#modifyOneCategory-header-icon
+{
+	grid-area: icon;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	font-size: 20px;
+	color: $icons-color-and-second-titles-color;
+}
+
+#modifyOneCategory-header-name
+{
+	grid-area: name;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	margin-left: 5%;
+	font-size: 18px;
+	color: $icons-color-and-second-titles-color;
+}
+
+#modifyOneCategory-header-new
+{
+	grid-area: new;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	@include width_height(70%, 30px);
+	outline: none;
+	border: none;
+	@include boxes(0, 5px, transparent);
+	margin-left: 20%;
+	border: 1px solid $primary-color;
+	color: $icons-color-and-second-titles-color;
+	cursor: pointer;
+	transition: all 300ms;
+}
+
+#modifyOneCategory-header-new:hover
+{
+	transform: scale(0.9);
+	color: $primary-color;
+}
+
+#modifyOneCategory-header-new > span
+{
+	margin-right: 5%;
+	margin-top: -4%;
+}
+
+#modifyOneCategory-header-button
+{
+	grid-area: button;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	@include width_height(55%, 30px);
+	outline: none;
+	border: none;
+	@include boxes(0, 5px, transparent);
+	border: 1px solid $primary-color;
+	color: $icons-color-and-second-titles-color;
+	cursor: pointer;
+	transition: all 300ms;
+}
+
+#modifyOneCategory-header-button:hover
+{
+	transform: scale(0.9);
+	color: $primary-color;
+}
+
+#modifyOneCategory-header-button > span
+{
+	margin-right: 5%;
+	margin-top: -4%;
+}
+
+#modifyOneCategory-header-delete
+{
+	grid-area: delete;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	@include width_height(55%, 30px);
+	outline: none;
+	border: none;
+	@include boxes(0, 5px, transparent);
+	border: 1px solid red;
+	color: red;
+	cursor: pointer;
+	transition: all 300ms;
+}
+
+#modifyOneCategory-header-delete:hover
+{
+	transform: scale(0.9);
+}
+
+#modifyOneCategory-header-delete > span
+{
+	margin-right: 5%;
+	margin-top: -4%;
+}
+
+#modifyOneCategory-questions-title
+{
+	display: block;
+	font-size: 18px;
+	color: $icons-color-and-second-titles-color;
+	margin-top: 1%;
+	margin-left: 1%;
+	margin-bottom: 1%;
+}
+
+#modifyOneCategory-questions
+{
+	width: 100%;
+}
+
+.questions-list
+{
+	display: block;
+	@include width_height(100%, 40px);
+	background-color: transparent;
+	cursor: pointer;
+	color: $thirh-color;
+}
+
+.questions-list:hover
+{
+	background-color: rgba(229,229,229,0.5);
+}
+
+.questions-list-icon
+{
+	display: inline-block;
+	@include width_height(10%, 100%);
+	text-align: center;
+	font-size: 20px;
+}
+
+.questions-list-question
+{
+	display: inline-block;
+	width: 80%;
+	padding-bottom: 2.8%;
+	border-bottom: 1px solid #ccc;
+}
+
+/*------------------------------------------------------------------------------------------------
+----------------------------------- MODIFY QUESTION ----------------------------------------------
+------------------------------------------------------------------------------------------------*/
+
+.modifyQuestion
+{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	top: 0%;
+	left: 0%;
+	@include width_height(100%,106%);
+	background-color: rgba(0,0,0,0.5);
+	outline: none;
+}
+
+.modifyQuestion-Panel
+{
+	@include width_height(30%, 50%);
+	outline: none;
+}
+
+.modifyQuestion-Panel > form
+{
+	display: grid;
+	@include grid_template(100%, 45% 45% 10%);
+	grid-template-areas: 
+	"question"
+	"answer"
+	"button";
+	@include width_height(100%, 100%);
+	box-shadow: 0px 0px 2px $background-color;
+	@include boxes(0, 10px, $white-color);
+	animation: appear-pop 500ms linear;
+	outline: none;
+}
+
+.modifyQuestion-question
+{
+	grid-area: question;
+	border-bottom: 3px solid $background-color;
+}
+
+.modifyQuestion-question > span
+{
+	display: block;
+	font-size: 18px;
+	color: $thirh-color;
+	margin-left: 5%;
+	margin-top: 5%;
+	margin-bottom: 4%;
+}
+
+.modifyQuestion-question > input[type="text"], .modifyQuestion-answer > input[type="text"]
+{
+	margin-left: 5%;
+	width: 80%;
+	@include boxes(2%, 5px, transparent);
+	outline: none;
+	border: 1px solid #ccc;
+}
+
+.modifyQuestion-answer
+{
+	grid-area: answer;
+}
+
+.modifyQuestion-answer > span
+{
+	display: block;
+	font-size: 18px;
+	color: $thirh-color;
+	margin-left: 5%;
+	margin-top: 2%;
+	margin-bottom: 4%;
+}
+
+.modifyQuestion-answer > .delete-span-mid
+{
+	text-align: center !important;
+	margin-left: 0% !important;
+}
+
+.modifyQuestion-answer > button
+{
+	margin-left: 40%;
+	margin-bottom: 5%;
+	@include boxes(2%, 5px, red);
+	border: none;
+	outline: none;
+	color: $white-color;
+	cursor: pointer;
+	transition: all 300ms;
+}
+
+.modifyQuestion-answer > button:hover
+{
+	transform: scale(0.9);
+}
+
+.modifyQuestion-answer > textarea
+{
+	margin-left: 5%;
+	@include width_height(80%, 35%);
+	max-width: 80%;
+	min-width: 80%;
+	max-height: 35%;
+	min-height: 35%;
+	@include boxes(2%, 5px, transparent);
+	outline: none;
+	border: 1px solid #ccc;
+}
+
+.modifyQuestion-answer > textarea::-webkit-scrollbar
+{
+	width: 5px;
+}
+
+.modifyQuestion-answer > textarea::-webkit-scrollbar-track {
+  
+}
+ 
+.modifyQuestion-answer > textarea::-webkit-scrollbar-thumb {
+  background-color: rgba(169,169,169,0.3);
+  outline: 1px solid slategrey;
+}
+
+.modifyQuestion-button
+{
+	grid-area: button;
+	display: flex;
+	justify-content: flex-end;
+	align-items: flex-end;
+}
+
+.modifyQuestion-button > span
+{
+	width: 43%;
+	margin-right: 2%;
+	margin-bottom: 7%;
+	background-color: transparent;
+	color: $thirh-color;
+}
+
+.modifyQuestion-button > button
+{
+	width: 40%;
+	margin-right: 10%;
+	margin-bottom: 2%;
+	@include boxes(2%, 5px, transparent);
+	border: 1px solid $primary-color;
+	outline: none;
+	color: $thirh-color;
+	cursor: pointer;
+	transition: all 300ms;
+}
+
+.modifyQuestion-button > button:hover
+{
+	transform: scale(0.9);
+	color: $primary-color;
+}
+
+.modifyQuestion-button-delete
+{
+	margin-right: 1% !important;
+	margin-bottom: 2.5% !important;
+	background-color: red !important;
+	border: none !important;
+	color: $white-color !important;
+}
+
+.modifyQuestion-button-delete:hover
+{
+	color: $white-color !important;
+}
+
+.edit
+{
+	height: 66%;
+}
+
+.edit-form
+{
+	grid-template-rows: 18% 54% 20% !important;
+	grid-template-areas:
+    "answer"
+    "question"
+    "button" !important;
+}
+
+.edit-icon
+{
+	margin-left: 5%;
+}
+
+.personal-select
+{
+	margin-right: 10%;
+}
+
+.errorFrequent
+{
+	margin-right: -45% !important;
+	margin-bottom: -5% !important;
+	color: red !important;
+}
+
+@keyframes appear-pop
+{
+	0%
+	{
+		transform: scale(0);
+	}
+
+	100%
+	{
+		transform: scale(1);
+	}
+}
+
+@media (max-width: 1024px)
+{
+	#general-container
+	{
+		height: 100%;
+	}
+
+	#container
+	{
+		width: 96%;
+	}
+
+	.category-list
+	{
+		width: 100%;
+	}
+
+	#modifyOneCategory-header
+	{
+		@include grid_template(18% 1% 40% repeat(2, 39%), 42% 52%);
+		grid-template-areas: 
+		"back icon name name name"
+		". new new button delete";
+		height: 85px;
+	}
+
+	#modifyOneCategory-header-new
+	{
+		margin-left: 0%;
+	}
+
+	#modifyOneCategory-header-button
+	{
+		margin-left: -26%;
+	}
+
+	#modifyOneCategory-header-delete
+	{
+		width: 60%;
+		margin-left: -64%;
+	}
+
+	.modifyQuestion-Panel
+	{
+		width: 95%;
+	}
+}
+
+@media (max-width: 372px)
+{
+	.modifyQuestion-button-delete
+	{
+		margin-right: 40% !important;
+	}
+
+	#modifyOneCategory-header-new
+	{
+		width: 85%;
+		margin-left: -30%;
+	}
+
+	#modifyOneCategory-header-button
+	{
+		width: 66%;
+		margin-left: -42%;
+	}
+
+	#modifyOneCategory-header-delete
+	{
+		width: 80%;
+		margin-left: -72%;
+	}
+}
+
+@media (max-width: 1024px) and (orientation: landscape)
+{
+	.modifyQuestion-Panel
+	{
+		@include width_height(65%, 100%);
+	}
+
+	.edit-form
+	{
+		grid-template-rows: 18% 64% 20% !important;
+	}
+}
+
+@media (max-width: 320px) and (orientation: landscape)
+{
+	.modifyQuestion-button-delete
+	{
+		margin-right: 45% !important;
+	}
+}

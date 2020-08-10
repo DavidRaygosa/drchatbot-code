@@ -1,0 +1,215 @@
+<!-----------------------------------------------------------------------------------------------------
+------------------------------------START COPY CHATBOT--------------------------------------------------
+------------------------------------------------------------------------------------------------------->
+
+<div id="general-container">
+	<div id="container">
+		<!------ START HEADER ------>
+		<div id="logo">
+			<img src="../../../assets/img/logo.png">
+		</div>
+		<div id="panel">
+			<div id="panel-header">
+				<a (click)="changePanel('new')" [ngClass]="{'focusMenu': newPanel}"> <span> Crear </span> </a>
+				<a (click)="changePanel('modify')" [ngClass]="{'focusMenu': !newPanel}"> <span> Modificar </span> </a>
+			</div>
+		<!------ END HEADER ------>
+		<!------ START NEW CATEGORY ------>
+			<div id="panel-container">
+				<div id="newCategorySelected" *ngIf="newPanel">
+					<h2> Nombre categoria </h2>
+					<input [(ngModel)]="CategoryName_DOM" id="CategoryName" name="Categoria" type="text" placeholder="Nombre Categoria" />
+					<h2> Selecciona icono de la categoria </h2>
+					<div class="select-icon-category">
+						<button class="icon focus" (click)="selectedIcon(',')">,</button>
+						<button class="icon focus" (click)="selectedIcon('/')">/</button>
+						<button class="icon focus" (click)="selectedIcon('.')">.</button>
+						<button class="icon focus" (click)="selectedIcon('-')">-</button>
+						<button class="icon focus" (click)="selectedIcon('?')">?</button>
+						<button class="icon focus" (click)="selectedIcon('@')">@</button>
+						<br>
+						<button class="icon focus" (click)="selectedIcon('A')">A</button>
+						<button class="icon focus" (click)="selectedIcon('C')">C</button>
+						<button class="icon focus" (click)="selectedIcon('B')">B</button>
+						<button class="icon focus" (click)="selectedIcon('D')">D</button>
+						<button class="icon focus" (click)="selectedIcon('F')">F</button>
+						<button class="icon focus" (click)="selectedIcon('q')">q</button>
+						<br>
+						<button class="icon focus" (click)="selectedIcon('w')">w</button>
+						<button class="icon focus" (click)="selectedIcon('e')">e</button>
+						<button class="icon focus" (click)="selectedIcon('t')">t</button>
+						<button class="icon focus" (click)="selectedIcon('y')">y</button>
+						<button class="icon focus" (click)="selectedIcon('f')">f</button>
+						<button class="icon focus" (click)="selectedIcon('a')">a</button>
+						<br>
+						<button class="icon focus" (click)="selectedIcon('g')">g</button>
+						<button class="icon focus" (click)="selectedIcon('c')">c</button>
+						<button class="icon focus" (click)="selectedIcon('K')">K</button>
+						<button class="icon focus" (click)="selectedIcon('R')">R</button>
+						<button class="icon focus" (click)="selectedIcon('U')">U</button>
+						<button class="icon focus" (click)="selectedIcon('I')">I</button>
+						<br>
+						<button class="icon focus" (click)="selectedIcon('O')">O</button>
+						<button class="icon focus" (click)="selectedIcon('P')">P</button>
+						<button class="icon focus" (click)="selectedIcon('Z')">Z</button>
+						<button class="icon focus" (click)="selectedIcon('C')">C</button>
+						<button class="icon focus" (click)="selectedIcon('N')">N</button>
+						<button class="icon focus" (click)="selectedIcon('M')">M</button>
+					</div>
+					<button id="createNewCategory" (click)="createCategory()" [disabled]="createdCategory">Crear Categoria</button>
+					<div id="succesfullcreated" *ngIf="createdCategory">
+						<span class="icon categorycreated"> . </span>
+						<span class="categorycreated"> Categoria Creada </span> 
+					</div>
+				</div>
+			<!------ END NEW CATEGORY ------>
+			<!------ START MODIFY CATEGORY ------>
+				<div id="modifyCategorySelected" *ngIf="ModifyPanel">
+					<!------ START CATEGORIES LIST ------>
+					<li class="category-list" *ngFor="let category of categories; let i = index" (click)="modifyCategory(category)">
+						<span class="icon cate-frequent" *ngIf="category.frequent == 'SI'"> R </span>
+						<span class="icon icon-category"> {{category.icon}} </span>
+						<span class="name-category"> {{category.category_name}} </span>
+					</li>
+					<!------ END CATEGORIES LIST ------>
+				</div>
+			<!------ END MODIFY CATEGORY ------>
+			<!------ START MODIFY ONLY CATEGORY ------>
+				<div id="modifyOneCategory" *ngIf="modifyOne">
+					<div id="modifyOneCategory-header">
+						<button class="icon" id="modifyOneCategory-header-back" (click)="backtoCategories()"> < </button>
+						<span class="icon" id="modifyOneCategory-header-icon"> {{category.icon}} </span>
+						<span id="modifyOneCategory-header-name"> {{category.category_name}} </span>
+						<button id="modifyOneCategory-header-new" (click)="newQuestion()"> <span class="icon"> + </span> Pregunta </button>
+						<button id="modifyOneCategory-header-button" (click)="editCategory()"> <span class="icon"> S </span> Editar </button>
+						<button id="modifyOneCategory-header-delete" (click)="delete()"> <span class="icon"> ' </span> Eliminar </button>
+					</div>
+					<div id="modifyOneCategory-questions">
+						<span id="modifyOneCategory-questions-title"> Preguntas </span>
+						<!------ START QUESTIONS LIST ------>
+						<li class="questions-list" *ngFor="let category of category.questions; let i = index" (click)="modifyQuestion(category, i)">
+							<span class="icon questions-list-icon"> a </span>
+							<span class="questions-list-question"> {{category.question}} </span>
+						</li>
+						<!------ END QUESTIONS LIST ------>
+					</div>
+				</div>
+			<!------ END MODIFY CATEGORY ------>
+				<div class="modifyQuestion" tabindex="1" (click)="hidepopupEdit('question', $event)" *ngIf="popupEdit">
+					<div class="modifyQuestion-Panel edit" tabindex="1" (keyup.esc)="hidepopupNew('donothing', $event)">
+						<form class="edit-form">
+							<div class="modifyQuestion-question">
+								<span>Icono</span>
+								<div class="select-icon-category edit-icon">
+									<button class="icon focus" (click)="selectedIconEdit(',')">,</button>
+									<button class="icon focus" (click)="selectedIconEdit('/')">/</button>
+									<button class="icon focus" (click)="selectedIconEdit('.')">.</button>
+									<button class="icon focus" (click)="selectedIconEdit('-')">-</button>
+									<button class="icon focus" (click)="selectedIconEdit('?')">?</button>
+									<button class="icon focus" (click)="selectedIconEdit('@')">@</button>
+									<br>
+									<button class="icon focus" (click)="selectedIconEdit('A')">A</button>
+									<button class="icon focus" (click)="selectedIconEdit('C')">C</button>
+									<button class="icon focus" (click)="selectedIconEdit('B')">B</button>
+									<button class="icon focus" (click)="selectedIconEdit('D')">D</button>
+									<button class="icon focus" (click)="selectedIconEdit('F')">F</button>
+									<button class="icon focus" (click)="selectedIconEdit('q')">q</button>
+									<br>
+									<button class="icon focus" (click)="selectedIconEdit('w')">w</button>
+									<button class="icon focus" (click)="selectedIconEdit('e')">e</button>
+									<button class="icon focus" (click)="selectedIconEdit('t')">t</button>
+									<button class="icon focus" (click)="selectedIconEdit('y')">y</button>
+									<button class="icon focus" (click)="selectedIconEdit('f')">f</button>
+									<button class="icon focus" (click)="selectedIconEdit('a')">a</button>
+									<br>
+									<button class="icon focus" (click)="selectedIconEdit('g')">g</button>
+									<button class="icon focus" (click)="selectedIconEdit('c')">c</button>
+									<button class="icon focus" (click)="selectedIconEdit('K')">K</button>
+									<button class="icon focus" (click)="selectedIconEdit('R')">R</button>
+									<button class="icon focus" (click)="selectedIconEdit('U')">U</button>
+									<button class="icon focus" (click)="selectedIconEdit('I')">I</button>
+									<br>
+									<button class="icon focus" (click)="selectedIconEdit('O')">O</button>
+									<button class="icon focus" (click)="selectedIconEdit('P')">P</button>
+									<button class="icon focus" (click)="selectedIconEdit('Z')">Z</button>
+									<button class="icon focus" (click)="selectedIconEdit('C')">C</button>
+									<button class="icon focus" (click)="selectedIconEdit('N')">N</button>
+									<button class="icon focus" (click)="selectedIconEdit('M')">M</button>
+								</div>
+							</div>
+							<div class="modifyQuestion-answer">
+								<span>Nombre</span>
+								<input id="edit-category-name" type="text" #chatbotCategoryName="ngModel" [(ngModel)]="chatbotCategoryName_DOM" name="question" placeholder="Pregunta" />
+							</div>
+							<div class="modifyQuestion-button">
+								<span>¿Pregunta Frecuente?</span> 
+								<span *ngIf="frequentError" class="errorFrequent"> Solo se permiten 2 categorias como frecuentes </span>
+								<select id="mySelect" nice-select class="personal-select" (change)="onChange($event)">
+  									<option>{{this.category.frequent}}</option>
+  									<option>SI</option>
+  									<option>NO</option>
+								</select>
+								<button (click)="EditCategoryData()">Actualizar</button>
+							</div>
+						</form>
+					<!------ END MODIFY CATEGORY------>
+					</div>
+				</div>
+				<!------ START ADD QUESTION ------>
+				<div class="modifyQuestion" tabindex="1" (click)="hidepopupNew('question', $event)" *ngIf="popupNew">
+					<div class="modifyQuestion-Panel" tabindex="1" (keyup.esc)="hidepopupNew('donothing', $event)">
+						<form #formNew="ngForm" (ngSubmit)="newQuestions(formNew)">
+							<div class="modifyQuestion-question">
+								<span>Pregunta</span>
+								<input id="new-question" type="text" #chatbotNewQuestion="ngModel" [(ngModel)]="chatbotNewQuestion_DOM" name="question" placeholder="Pregunta" />
+							</div>
+							<div class="modifyQuestion-answer">
+								<span>Respuesta</span>
+								<textarea id="new-answer" type="text" #chatbotNewAnswer="ngModel" [(ngModel)]="chatbotNewAnswer_DOM" name="answer" placeholder="Respuesta"></textarea>
+							</div>
+							<div class="modifyQuestion-button">
+								<button type="submit">Añadir</button>
+							</div>
+						</form>
+					</div>
+				</div>
+				<!------ END ADD QUESTION ------>
+				<!------ START MODIFY QUESTION ------>
+				<div class="modifyQuestion" tabindex="1" (click)="hidepopup('question', $event)" *ngIf="popup">
+					<div class="modifyQuestion-Panel" tabindex="1" (keyup.esc)="hidepopup('donothing', $event)">
+						<form>
+							<div class="modifyQuestion-question" >
+								<span>Pregunta</span>
+								<input id="question" type="text" name="question" placeholder="Pregunta" />
+							</div>
+							<div class="modifyQuestion-answer">
+								<span>Respuesta</span>
+								<textarea id="answer" type="text" name="answer" placeholder="Respuesta"></textarea>
+							</div>
+							<div class="modifyQuestion-button">
+								<button class="modifyQuestion-button-delete" (click)="deleteQuestions()">Eliminar</button>
+								<button (click)="updateQuestions()">Actualizar</button>
+							</div>
+						</form>
+					</div>
+				</div>
+				<!------ END MODIFY QUESTION ------>
+				<!------ START DELETE POPUP ------>
+				<div class="modifyQuestion" tabindex="1" (click)="hidepopupDelete('question', $event)" *ngIf="popupDelete">
+					<div class="modifyQuestion-Panel" tabindex="1" (keyup.esc)="hidepopupDelete('donothing', $event)">
+						<form>
+							<div class="modifyQuestion-answer">
+								<span class="delete-span-mid"> Se eliminará toda la categoria </span>
+								<button (click)="deleteConfirm()">Aceptar</button>
+							</div>
+						</form>
+					</div>
+				</div>
+				<!------ END DELETE POPUP ------>
+			</div>
+		</div>
+	</div>
+</div>
+<!-----------------------------------------------------------------------------------------------------
+------------------------------------END COPY CHATBOT--------------------------------------------------
+------------------------------------------------------------------------------------------------------->

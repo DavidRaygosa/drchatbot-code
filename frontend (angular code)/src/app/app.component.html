@@ -1,0 +1,167 @@
+
+<div id="screen">
+  <router-outlet></router-outlet>
+</div>
+
+<!---------------------------------------------------------------------------------------------------
+--------------------------------- START COPY --------------------------------------------------------
+---------------------------------------------------------------------------------------------------->
+
+<!-------------------------------- CHATBOT ---------------------------------------------------------->
+<div class="chatbot" *ngIf="!loadingChatBotData"> <!-- *ngIf="!loadingChatBotData" -->
+  <button class="icon" id="button-chatbot" (click)="appearchatbot('appear')" title="ChatBot">
+    e
+  </button>
+  <div id="chatbot-container">
+    <!-- -------------START CHATBOT HEADER --------------------->
+    <div id="chatbot-header">
+      <div id="backButtonChatBot" *ngIf="enableChatBotSearch">
+        <button class="icon" id="chatbot-frequent-button" (click)="backPanelChatBot('toPrincipal')" *ngIf="frequent"><</button>
+        <button class="icon" id="chatbot-frequent-button" (click)="backPanelChatBot('toCategories')" *ngIf="PanelSearchChatbot"><</button>
+        <button class="icon" (click)="backPanelChatBot('toPrincipal')" *ngIf="PanelEmailChatbot"><</button>
+        <button class="icon" (click)="backPanelChatBot('toPrincipal')" *ngIf="PanelCategoriesChatBot"><</button>
+        <button class="icon" (click)="backPanelChatBot('toQuestions')" *ngIf="PanelAnswerChatbot"><</button>
+        <div *ngIf="!frequent">
+          <button class="icon" (click)="backPanelChatBot('toCategories')" *ngIf="PanelQuestionesChatbot"><</button>
+        </div>
+      </div>
+      <div id="logoChatbot-principal"> 
+        <div *ngIf="!PanelAnswerChatbot" class="logoChatBot"> <img src="../assets/img/logo.png"> </div>
+        <div *ngIf="PanelAnswerChatbot" id="chatbot-answer-title"> 
+          <span id="chatbot-answer-title-title"> CATEGORÍA </span>
+          <span id="chatbot-answer-title-category"> {{chatbot_questions.category}} </span>
+        </div>
+      </div>
+      <div id="close-button">
+        <button id="button-right" class="icon" (click)="appearchatbot('close')"> ' </button>
+      </div>
+
+      <!-- -------------START SEARCH DIV--------------------->
+      <div id="searchChatBot" *ngIf="enableChatBotSearchAnswer">
+        <span class="icon" id="searchChatBotLogo"> L </span>
+        <input type="text" name="searchChatBot" #box id="searchChatBotInput" placeholder="Buscar respuestas"  (focus)="focusChatBotSearch()" (focusout)="focusOutChatBotSearch()" (keyup)="keyupSearchChatBot(box)"/>
+        <button class="icon" id="searchChatBotButton" *ngIf="cancelSearchChatBot" (click)="keyupSearchChatBot('clear')">'</button>
+      </div>
+      <!-- -------------END CHATBOT HEADER --------------------->
+    </div>
+    <!-- -------------END CHATBOT HEADER --------------------->
+    <div id="Chatbot-Panel">
+      <!-- -------------START PRINCIPAL CHATBOTPANEL --------------------->
+      <div id="principal-panel" [ngClass]="{'show-principal-panel': PanelChatBot, 'hide-principal-panel': !PanelChatBot}">
+        
+        <div class="options-panel" id="contact-us">
+          <div class="title-option"> 
+            <h1> Envíanos un mensaje </h1> 
+            <h2> </h2>
+          </div>
+          <div class="options-chatbot">
+            <a class="option-chatbot" (click)="chatbotEmail()">
+              <span class="icon"> @ </span>
+              <h2> Correo Electronico </h2>
+            </a>
+          </div>
+        </div>
+        <div class="options-panel" id="common-questions">
+          <div class="title-option"> 
+            <h1> Preguntas frecuentes </h1> 
+            <h2> <span class="icon" (click)="chatbotCategories()"> L </span> </h2>
+          </div>
+          <!-- -------------START FREQUENT CATEGORY --------------------->
+          <div class="options-chatbot">
+            <a class="option-chatbot" (click)="chatbotCategories(true, 0)" *ngIf="midFrequent">
+              <span class="icon"> {{chatbot_questions_frecuent[0].icon}} </span>
+              <h2> {{chatbot_questions_frecuent[0].category_name}} </h2>
+            </a>
+            <div class="option-separator">
+            </div>
+            <a class="option-chatbot" (click)="chatbotCategories(true, 1)" *ngIf="fullFrequent">
+              <span class="icon"> {{chatbot_questions_frecuent[1].icon}} </span>
+              <h2> {{chatbot_questions_frecuent[1].category_name}} </h2>
+            </a>
+            <!-- -------------END FREQUENT CATEGORY --------------------->
+            <a class="option-showmore" (click)="chatbotCategories()">
+              <span> Mostrar más categorías </span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <!-- ------------- END PRINCIPAL CHATBOTPANEL --------------------->
+      <!-- ------------- START CATEGORIES CHATBOTPANEL --------------------->
+      <div class="catogories-panel" *ngIf="PanelCategoriesChatBot">
+        <span> Categorías </span>
+        <div id="categories-chatbot">
+          <!-- -------------START CATEGORY LIST --------------------->
+          <li class="article-chatbot" *ngFor="let chatbot_category of chatbot.categories; let i = index" (click)="chatbotCategory(chatbot_category)">
+            <span class="icon article-logo-chatbot"> {{chatbot_category.icon}} </span>
+            <span class="category-title-chatbot"> {{chatbot_category.category_name}} </span>
+          </li>
+          <!-- -------------END CATEGORY LIST --------------------->
+        </div>
+      </div>
+      <!-- ------------- END CATEGORIES CHATBOTPANEL --------------------->
+      <!-- ------------- START QUESTIONS CHATBOTPANEL --------------------->
+      <div id="quetiones-panel" *ngIf="PanelQuestionesChatbot">
+        <div id="questions-panel-title">
+          <span id="questions-panel-title-logo" class="icon"> {{chatbot_category.icon}} </span> 
+          <span id="questions-panel-title"> CATEGORÍA </span>
+          <span id="questions-panel-title-name"> {{chatbot_category.category_name}} </span>
+        </div>
+        <div id="questiones-panel-questions">
+          <!-- -------------START QUESTIONS LIST --------------------->
+          <li class="question-chatbot" *ngFor="let chatbot_question of chatbot_category.questions; let i = index" (click)="chatbotQuestion(chatbot_category.category_name, chatbot_question.question, chatbot_question.answer)">
+            <!-- (click)="liClick(student, i)" -->
+            <span class="icon space-right"> a </span>
+            <span class="space-bottom"> {{chatbot_question.question}} </span>
+          </li>
+          <!-- -------------END QUESTIONS LIST --------------------->
+        </div>
+      </div>
+      <!-- ------------- END QUESTIONS CHATBOTPANEL --------------------->
+      <!-- ------------- START ANSWER CHATBOTPANEL --------------------->
+      <div id="answer-panel" *ngIf="PanelAnswerChatbot">
+        <div id="chatbot-answer-question">
+          {{chatbot_questions.question}}
+        </div>
+        <div id="chatbot-answer-answer">
+          {{chatbot_questions.answer}}
+        </div>
+      </div>
+      <!-- ------------- END ANSWER CHATBOTPANEL --------------------->
+      <!-- ------------- START SEARCH CHATBOTPANEL --------------------->
+      <div class="catogories-panel" *ngIf="PanelSearchChatbot">
+        <span id="chatbot-search-title-title"> Resultados de búsqueda </span>
+        <div id="chatbot-search-results">
+          <div>
+            <!-- -------------START QUESTION SEARCH LIST --------------------->
+            <li class="search-chatbot" *ngFor="let answer of outputChatbot; let i = index; let l = count" (click)="chatbotQuestion('Busqueda', outputChatbot[i].question, outputChatbot[i].answer, true)">
+              <span class="icon space-right"> a </span>
+              <span class="space-bottom"> {{answer.question}} </span>
+            </li>
+            <!-- -------------END QUESTION SEARCH LIST --------------------->
+          </div>
+        </div>
+      </div>
+      <!-- ------------- END SEARCH CHATBOTPANEL --------------------->
+      <!-- ------------- START EMAIL CHATBOTPANEL --------------------->
+      <div id="email-panel" *ngIf="PanelEmailChatbot">
+        <span> Correo Electronico </span>
+        <form #formChatbot="ngForm" (ngSubmit)="OnsubmitChatbotEmail(formChatbot)" class="form-chatbot-email" >
+          <input id="form-chatbot-email-name" #chatbotEmail_name="ngModel" [(ngModel)]="ChatbotName_DOM" name="nameChatbotEmail" type="text" placeholder="Nombre" />
+          <input id="form-chatbot-email-lastname" #chatbotEmail_lastname="ngModel" [(ngModel)]="ChatbotLastname_DOM" name="lastnameChatbotEmail" type="text" placeholder="Apellido" />
+          <input id="form-chatbot-email-email" #chatbotEmail_email="ngModel" [(ngModel)]="ChatbotEmail_DOM" name="EmailChatbotEmail" type="email" placeholder="Email" />
+          <textarea id="form-chatbot-email-message" #chatbotEmail_message="ngModel" [(ngModel)]="ChatbotMessage_DOM" name="EmailChatbotMessage" placeholder="Mensaje"></textarea>
+          <input type="submit" value="Enviar" id="form-chatbot-email-button"/>
+          <div id="form-chatbot-email-send" *ngIf="chatbotFormSent">
+            <span class="icon"> / </span>
+            <span> Mensaje Enviado </span>
+          </div> 
+        </form>
+      </div>
+      <!-- ------------- END EMAIL CHATBOTPANEL --------------------->
+    </div>
+  </div>
+</div>
+
+<!---------------------------------------------------------------------------------------------------
+----------------------------------- END COPY --------------------------------------------------------
+---------------------------------------------------------------------------------------------------->

@@ -1,0 +1,1390 @@
+// ROUTER OUTLET
+
+#screen
+{
+	width: 100%;
+	height: 100vh;
+}
+
+/*--------------------------------------------------------------------------------------------------
+---------------------------------------START CHATBOT------------------------------------------------
+---------------------------------------------------------------------------------------------------*/
+
+// VARS CHATBOT
+
+$font-family-icon: WebSymbolsRegular; // FONT FAMILY TO ICONS
+$background-color: #F4F5F7; // DEFAULT //#F4F5F7 (lightgray)
+$primary-color: #0066BB; // DEFAULT #0066BB (BLUE)
+$secondary-color: #666; // DEFAULT #666
+$tertiary-color: #e5e5e5; // DEFAULT #e5e5e5
+$color-white: white; // FOR BACKGROUND-COLOR AND TEXT
+$backbutton-color: #3384C9; // DEFAULT #3384C9 (ligthblue)
+$backbutton-color-hover: #4591D0; // DEFAULT #4591D0
+$color-text-button: #cccccc; // DEFAULT #cccccc
+$search-color: #3385C9; // DEFAULT #3385C9
+$search-icon-color: #888; // DEFAULT #888;
+$title-text-color: #555; // DEFAULT #555
+$primarypage-color-hover: #F2F5F7; // DEFAULT #F2F5F7
+$category-title-color: #364764; // DEFAULT #364764
+$category-background-icons-color: #EDEEF1; // DEFAULT #EDEEF1
+$questions-list-text-color: #444; // DEFAULT #444
+$email-input-background-color: #e7e7e7; // DEFAULT #e7e7e7
+
+// MIXINS CHATBOT
+
+@mixin width_height($width, $height)
+{
+	width: $width;
+	height: $height;
+}
+
+@mixin grid_template($columns, $rows)
+{
+	grid-template-columns: $columns;
+	grid-template-rows: $rows;
+}
+
+@mixin boxes($padding, $border-radius, $background-color)
+{
+	padding: $padding;
+	border-radius: $border-radius;
+	background-color: $background-color;
+}
+
+// COMPONENT STYLES
+
+.icon
+{
+	font-family: $font-family-icon;
+}
+
+.chatbot
+{
+	position: fixed;
+	top: 85%;
+	right: 2%;
+	@include width_height(4%,50px);
+}
+
+#button-chatbot
+{
+	@include width_height(100%, 100%);
+	background-color: transparent;
+	color: #0167BB;
+	cursor: pointer;
+	border: none;
+	outline: none;
+	font-size: 40px;
+	animation: appear-chatbot-button 300ms linear;
+}
+
+#chatbot-container
+{
+	display: none;
+	border-radius: 10px;
+	@include grid_template(100%, 20% 80%);
+	grid-template-areas: 
+	"header"
+	"panel";
+	position: fixed;
+	top: 18%;
+	right: 4%;
+	@include width_height(28%, 450px);
+	background-color: $color-white;
+	box-shadow: 0px 0px 8px gray;
+	animation: appear-chatbot 300ms linear;
+}
+
+#chatbot-header
+{
+	grid-area: header;
+	display: grid;
+	@include boxes(5%, 10px 10px 0px 0px, $primary-color);
+	@include grid_template(10% 70% 20%, 50% 50%);
+	grid-template-areas: 
+	"backButtonChatBot logo close-button"
+	"searchChatBot searchChatBot searchChatBot";
+}
+
+.logoChatBot > img
+{
+	@include width_height(70%, 100%);
+}
+
+#backButtonChatBot
+{
+	grid-area: backButtonChatBot;
+	@include width_height(100%, 32px);
+	border-radius: 5px;
+	background-color: $backbutton-color;
+	animation: appear-back-button 500ms linear;
+}
+
+.hideChatbotElement
+{
+	display: none;
+}
+
+.showChatbotElement
+{
+	display: block;
+}
+
+.marginTopChatBotElement
+{
+	margin-top: -4%;
+}
+
+#backButtonChatBot > button
+{
+	@include width_height(100%, 100%);
+	text-align: center;
+	border: none;
+	outline: none;
+	color: $color-text-button;
+	border-radius: 5px;
+	background-color: transparent;
+	cursor: pointer;
+}
+
+#backButtonChatBot > button:hover
+{
+	background-color: $backbutton-color-hover;
+}
+
+#backButtonChatBot > div
+{
+	@include width_height(100%, 100%);
+}
+
+#backButtonChatBot > div > button
+{
+	@include width_height(100%, 100%);
+	text-align: center;
+	border: none;
+	outline: none;
+	color: $color-text-button;
+	border-radius: 5px;
+	background-color: transparent;
+	cursor: pointer;
+}
+
+#backButtonChatBot > div > button:hover
+{
+	background-color: $backbutton-color-hover;
+}
+
+#logoChatbot-principal
+{
+	display: none;
+	grid-area: logo;
+	width: 100%;
+	color: $color-text-button;
+	margin-left: -14%;
+	transition: all 300ms;
+}
+
+.logoToCenter
+{
+	animation: logoToCenter 300ms linear;
+	transform: translateX(50%);
+}
+
+.logoToMidLeft
+{
+	animation: logoToMidLeft 300ms linear;
+	transform: translateX(18%);
+}
+
+.logoToLeft
+{
+	animation: logoToLeft 300ms linear;
+	transform: translateX(0%);
+}
+
+#close-button
+{
+	grid-area: close-button;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#button-right
+{
+	display: block;
+	width: 100%;
+	@include boxes(12%, 30px, $secondary-color);
+	padding-left: 22%;
+	padding-right: 22%;
+	opacity: 0.5;
+	color: $color-white;
+	margin-top: -145%;
+	margin-left: 90%;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	font-size: 10px;
+	transition: opacity 300ms;
+}
+
+#button-right:hover
+{
+	opacity: 0.8;
+}
+
+#searchChatBot
+{
+	grid-area: searchChatBot;
+	@include boxes(6%, 5px, $search-color);
+	height: 0%;
+	color: $color-white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	transition: all 300ms;
+}
+
+#searchChatBot:hover
+{
+	background-color: $backbutton-color-hover;
+}
+
+#searchChatBot > span
+{
+	margin-left: -3%;
+	margin-right: 2%;
+	transition: all 300ms;
+}
+
+#searchChatBot > input
+{
+	padding: 3%;
+	width: 92%;
+	color: $tertiary-color;
+	background-color: transparent;
+	border: none;
+	outline: none;
+	transition: all 300ms;
+}
+
+.show-principal-panel
+{
+	display: block;
+}
+
+.hide-principal-panel
+{
+	display: none;
+}
+
+#searchChatBot > input::placeholder { color: #e5e5e5; }
+
+.onFocusSearchChatBot::placeholder {color: $secondary-color !important;}
+
+#searchChatBot > button
+{
+	margin-left: -8%;
+	border: none;
+	@include boxes(2%, 999px, $secondary-color);
+	color: $color-white;
+	outline: none;
+	font-size: 4px;
+	cursor: pointer;
+}
+
+#Chatbot-Panel
+{
+	grid-area: panel;
+	@include boxes(3%, 0px 0px 10px 10px, $background-color);
+}
+
+//--------------------------- CHATBOT PRINCIPAL PANEL ------------------------------------------------
+
+#contact-us
+{
+	display: none;
+}
+
+#common-questions
+{
+	display: none;
+}
+
+.options-panel
+{
+	width: 100%;
+	border: none;
+	box-shadow: 0px 0px 5px gray;
+	margin-top: -10%;
+	@include boxes(0%, 10px, $color-white);
+	padding-bottom: 1%;
+	animation: appear-options 300ms linear;
+}
+
+.options-panel:first-child
+{
+	margin-bottom: 15%;
+}
+
+.title-option
+{
+	display: grid;
+	@include grid_template(80% 20%, 100%);
+	grid-template-areas: 
+	"title search";
+}
+
+.title-option > h1
+{
+	grid-area: title;
+	width: 100%;
+	font-size: 18px;
+	color: $title-text-color;
+	padding: 5%;
+	border-bottom: 1px solid $tertiary-color;
+}
+
+.title-option > h2
+{
+	grid-area: search;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-bottom: 1px solid $tertiary-color;
+}
+
+.title-option > h2 > span
+{
+	@include width_height(41%, 30px);
+	text-align: center;
+	line-height: 2;
+	font-size: 14px;
+	color: $search-icon-color;
+	font-weight: normal;
+	border-radius: 999px;
+	border: 1px solid $tertiary-color;
+	cursor: pointer;
+}
+
+.title-option > h2 > span:hover
+{
+	background-color: $primarypage-color-hover;
+}
+
+.options-chatbot
+{
+	padding-bottom: 1%;
+}
+
+.option-separator
+{
+	width: 82%;
+	margin: 0px auto;
+	margin-left: 17%;
+	border-bottom: 1px solid $tertiary-color;
+}
+
+.option-chatbot
+{
+	display: grid;
+	width: 88%;
+	margin: 0px auto;
+	margin-top: 1%;
+	margin-bottom: 1%;
+	@include grid_template(10% 90%, 100%);
+	@include boxes(5%, 10px, transparent);
+	grid-template-areas: 
+	"icon-option title-option";
+	transition: all 300ms;
+	cursor: pointer;
+}
+
+.option-chatbot:hover
+{
+	background-color: $primarypage-color-hover;
+}
+
+.option-showmore
+{
+	display: block;
+	@include width_height(90%, 30px);
+	font-size: 13px;
+	font-weight: bold;
+	color: $title-text-color;
+	line-height: 2.5;
+	margin: 0px auto;
+	margin-top: 1%;
+	padding-top: 0%;
+	padding-left: 5%;
+	padding-right: 5%;
+	cursor: pointer;
+}
+
+.option-showmore:hover
+{
+	background-color: $primarypage-color-hover;
+}
+
+.option-chatbot > span
+{ 
+	grid-area: icon-option;
+	font-size: 18px;
+	color: $primary-color;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.option-chatbot > h2
+{
+	grid-area: title-option;
+	font-size: 14px;
+	color: $title-text-color;
+	display: flex;
+	justify-content: left;
+	align-items: center;
+	margin-left: 2%;
+	margin-top: 2%;
+}
+
+//-------------------------- CHATBOT CATEGORIES PANEL------------------------------------------------
+
+.catogories-panel
+{
+	@include width_height(100%, 100%);
+	overflow-y: scroll;
+	overflow-x: hidden;
+	animation: appear-options 300ms linear;
+}
+
+.catogories-panel::-webkit-scrollbar
+{
+	width: 5px;
+}
+
+.catogories-panel::-webkit-scrollbar-track {
+  
+}
+ 
+.catogories-panel::-webkit-scrollbar-thumb {
+  background-color: rgba(169,169,169,0.3);
+  outline: 1px solid slategrey;
+}
+
+.catogories-panel > span
+{
+	color: $category-title-color;
+	font-size: 18px;
+}
+
+#categories-chatbot
+{
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-between;
+	background-color: transparent;
+	flex-basis: 100%;
+	padding: 5%;
+	padding-left: 0%;
+	padding-right: 0%;
+}
+
+.article-chatbot
+{
+	display: flex;
+	flex-flow: column wrap;
+	justify-content: center;
+	align-items: flex-start;
+	flex-grow: 1;
+	flex-basis: 20%;
+	height: 80px;
+	margin-right: 4%;
+	margin-bottom: 3%;
+	@include boxes(5%, 10px, $color-white);
+	box-shadow: 0 2px 4px 0 rgba(0,0,0,.06);
+	cursor: pointer;
+}
+
+.article-chatbot:hover
+{
+	box-shadow: 8px 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.article-logo-chatbot
+{
+	width: 18%;
+	text-align: center;
+	@include boxes(7%, 8px, $category-background-icons-color);
+	font-size: 18px;
+	color: $primary-color;
+	margin-right: 5%;
+	margin-bottom: 5%;
+}
+
+.category-title-chatbot
+{
+	color: $category-title-color;
+	font-size: 14px;
+}
+
+//-------------------------- CHATBOT QUESTIONS PANEL------------------------------------------------
+
+#quetiones-panel
+{
+	@include width_height(100%, 120%);
+	@include boxes(0, 10px, $color-white);
+	box-shadow: 0px 0px 5px #ccc;
+	margin-top: -10%;
+	animation: appear-options 300ms linear;
+}
+
+#questions-panel-title
+{
+	display: grid;
+	@include grid_template(10% 90%, 50% 50%);
+	grid-template-areas: 
+	"logo title"
+	"logo name";
+	@include width_height(94%, 10%);
+	padding: 3%;
+	background-color: transparent;
+	text-align: left;
+}
+
+#questions-panel-title-logo
+{
+	grid-area: logo;
+	text-align: center;
+	font-size: 26px;
+	@include boxes(0, 5px, $category-background-icons-color);
+	color: $primary-color;
+}
+
+#questions-panel-title
+{
+	grid-area: title;
+	color: $secondary-color;
+	font-size: 12px;
+	font-weight: bold;
+	margin-top: -3%;
+}
+
+#questions-panel-title-name
+{
+	grid-area: name;
+	color: $secondary-color;
+	font-size: 16px;
+	margin-left: 3%;
+}
+
+#questiones-panel-questions
+{
+	border-top: 1px solid $tertiary-color;
+	@include width_height(100%, 82%);
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+#questiones-panel-questions::-webkit-scrollbar
+{
+	width: 5px;
+}
+
+#questiones-panel-questions::-webkit-scrollbar-track {
+  
+}
+ 
+#questiones-panel-questions::-webkit-scrollbar-thumb {
+  background-color: rgba(169,169,169,0.3);
+  outline: 1px solid slategrey;
+}
+
+.question-chatbot
+{
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	@include width_height(100%, 18%);
+	list-style: none;
+	background-color: transparent;
+	cursor: pointer;
+	transition: all 100ms;
+}
+
+.question-chatbot:hover
+{
+	background-color: rgba(229,229,229,0.5);
+}
+
+.space-right
+{
+	margin-left: 4%;
+	margin-right: 4%;
+	font-size: 16px;
+	color: $questions-list-text-color;
+	font-weight: normal;
+}
+
+.space-bottom
+{
+	display: flex;
+    align-items: center;
+    @include width_height(90%, 100%);
+    border-bottom: 1px solid $tertiary-color;
+    color: $questions-list-text-color;
+}
+
+//-------------------------- CHATBOT ANSWER PANEL------------------------------------------------
+
+#answer-panel
+{
+	@include width_height(100%, 108%);
+	background-color: $color-white;
+	border-radius: 10px;
+	box-shadow: 0px 0px 5px #ccc;
+	margin-top: -10%;
+	animation: appear-options 300ms linear;
+}
+
+
+#chatbot-answer-title > span
+{
+	display: block;
+	color: $color-white;
+}
+
+#chatbot-answer-title-title
+{
+	font-size: 11px;
+}
+
+#chatbot-answer-title-category
+{
+	font-size: 16px;
+	font-weight: bold;
+}
+
+#chatbot-answer-question
+{
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	@include width_height(92%, 12%);
+	padding: 4%;
+	font-size: 20px;
+	color: $secondary-color;
+	background-color: transparent;
+	border-bottom: 1px solid $tertiary-color;
+}
+
+#chatbot-answer-answer
+{
+	@include width_height(92%, 70%);
+	padding: 4%;
+	font-size: 18px;
+	color: $secondary-color;
+	background-color: transparent;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+#chatbot-answer-answer::-webkit-scrollbar
+{
+	width: 5px;
+}
+
+#chatbot-answer-answer::-webkit-scrollbar-track {
+  
+}
+ 
+#chatbot-answer-answer::-webkit-scrollbar-thumb {
+  background-color: rgba(169,169,169,0.3);
+  outline: 1px solid slategrey;
+}
+
+//-------------------------- CHATBOT SEARCH PANEL------------------------------------------------
+
+#search-panel
+{
+	@include width_height(100%, 100%);
+	background-color: red;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	animation: appear-options 300ms linear;
+}
+
+#chatbot-search-title-title
+{
+	color: $title-text-color;
+}
+
+#chatbot-search-results
+{
+	@include width_height(100%, 90%);
+	margin-top: 2%;
+	@include boxes(0, 10px, $color-white);
+	box-shadow: 0px 0px 5px #ccc;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+#chatbot-search-results::-webkit-scrollbar
+{
+	width: 5px;
+}
+
+#chatbot-search-results::-webkit-scrollbar-track {
+  
+}
+ 
+#chatbot-search-results::-webkit-scrollbar-thumb {
+  background-color: rgba(169,169,169,0.3);
+  outline: 1px solid slategrey;
+}
+
+.search-chatbot
+{
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	@include width_height(100%, 45px);
+	list-style: none;
+	background-color: transparent;
+	cursor: pointer;
+	transition: all 100ms;
+}
+
+.search-chatbot:hover
+{
+	background-color: rgba(229,229,229,0.5);
+}
+
+.chatbot-search-title
+{
+	display: block;
+	width: 35%;
+	margin-top: 4%;
+	margin-bottom: 2%;
+	margin-left: 2%;
+	padding-bottom: 2%;
+	color: $secondary-color;
+	font-size: 16px;
+	border-bottom: 1px solid $tertiary-color;
+}
+
+//-------------------------- CHATBOT EMAIL PANEL------------------------------------------------
+
+#email-panel
+{
+	@include width_height(90%, 112%);
+	@include boxes(5%, 10px, $color-white);
+	box-shadow: 0px 0px 5px #ccc;
+	margin-top: -20%;
+	animation: appear-options 300ms linear;
+}
+
+#email-panel > span
+{
+	display: block;
+	margin-bottom: 5%;
+	color: $category-title-color;
+}
+
+.form-chatbot-email
+{
+	display: grid;
+	@include width_height(100%, 90%);
+	@include grid_template(50% 50%, repeat(4, 25%));
+	grid-template-areas: 
+	"name lastname"
+	"email email"
+	"message message"
+	"button send";
+	background-color: transparent;
+}
+
+.form-chatbot-email > input[type="text"], input[type="email"], textarea
+{
+	margin: 0px auto;
+	margin-bottom: 5%;
+	@include boxes(2%, 5px, $email-input-background-color);
+	border: none;
+	outline: none;
+	transition: all 300ms;
+}
+
+#form-chatbot-email-name
+{
+	grid-area: name;
+	@include width_height(95%, 50%);
+}
+
+#form-chatbot-email-lastname
+{
+	grid-area: lastname;
+	@include width_height(95%, 50%);
+}
+
+#form-chatbot-email-email
+{
+	grid-area: email;
+	@include width_height(95%, 50%);
+}
+
+#form-chatbot-email-message
+{
+	grid-area: message;
+	@include width_height(95%, 80%);
+	max-width: 95%;
+    min-width: 95%;
+    max-height: 80%;
+    min-height: 80%;
+}
+
+#form-chatbot-email-send
+{
+	grid-area: send;
+	margin-top: 10%;
+	color: $primary-color;
+	animation: appear-chatbot-button 300ms linear;
+}
+
+#form-chatbot-email-message::-webkit-scrollbar
+{
+	width: 5px;
+}
+
+#form-chatbot-email-message::-webkit-scrollbar-track {
+  
+}
+ 
+#form-chatbot-email-message::-webkit-scrollbar-thumb {
+  background-color: rgba(169,169,169,0.3);
+  outline: 1px solid slategrey;
+}
+
+#form-chatbot-email-button
+{
+	grid-area: button;
+	text-align: center;
+	margin-top: 5%;
+	margin-left: 1%;
+	color: $primary-color;
+	@include boxes(0, 5px, transparent);
+	outline: none;
+	border: 1px solid $primary-color;
+	@include width_height(60%, 50%);
+	transition: all 300ms;
+	cursor: pointer;
+}
+
+#form-chatbot-email-button:hover
+{
+	transform: scale(0.9);
+}
+
+.incompledFormChatbot
+{
+	border: 1px solid red !important;
+}
+
+@keyframes appear-chatbot-button
+{
+	0%
+	{
+		transform: scale(0);
+		opacity: 0;
+	}
+	100%
+	{
+		transform: scale(1);
+		opacity: 1;
+	}
+}
+
+@keyframes appear-chatbot
+{
+	0%
+	{
+		transform: scale(0);
+		@include width_height(0%, 0%);
+		top: 84%;
+	}
+	100%
+	{
+		transform: scale(1);
+		@include width_height(28%, 450px);
+		top: 18%;
+	}
+}
+
+@keyframes appear-options
+{
+	0%
+	{
+		transform: translateY(8%);
+		opacity: 0;
+	}
+
+	100%
+	{
+		transform: translateY(0%);
+		opacity: 1;
+	}
+}
+
+@keyframes logoToCenter
+{
+	0%
+	{
+		transform: translateX(0%);
+	}
+
+	100%
+	{
+		transform: translateX(50%);
+	}
+}
+
+@keyframes logoToMidLeft
+{
+	0%
+	{
+		transform: translateX(50%);
+	}
+
+	100%
+	{
+		transform: translateX(18%);
+	}
+}
+
+@keyframes logoToLeft
+{
+	0%
+	{
+		transform: translateX(50%);
+	}
+
+	100%
+	{
+		transform: translateX(0%);
+	}
+}
+
+
+
+@keyframes appear-back-button
+{
+	0%
+	{
+		opacity: 0;
+	}
+	80%
+	{
+		opacity: 0;
+	}
+	100%
+	{
+		opacity: 1;
+	}
+}
+
+@media (max-width: 1024px) and (max-height: 1366px)
+{
+	.chatbot
+	{
+		top: 82%;
+		right: 6%;
+		width: 9%;
+	}
+
+	.logoChatBot > img
+	{
+    	@include width_height(65%, 100%);
+	}
+
+	#chatbot-container
+	{
+		top: 50%;
+	}
+
+	@keyframes appear-chatbot
+	{
+		0%
+		{
+			transform: scale(0);
+			@include width_height(0%, 0%);
+			top: 84%;
+		}
+		100%
+		{
+			transform: scale(1);
+			@include width_height(28%, 450px);
+			top: 50%;
+		}
+	}
+}
+
+@media (max-width: 768px) and (max-height: 1024px)
+{
+	.chatbot
+	{
+		top: 82%;
+		right: 6%;
+		width: 9%;
+	}
+
+	#chatbot-container
+	{
+		width: 35%;
+		top: 36%;
+	}
+
+	.logoChatBot > img
+	{
+    	@include width_height(65%, 100%);
+	}
+
+	@keyframes appear-chatbot
+	{
+		0%
+		{
+			transform: scale(0);
+			@include width_height(0%, 0%);
+			top: 84%;
+		}
+		100%
+		{
+			transform: scale(1);
+			@include width_height(28%, 450px);
+			top: 36%;
+		}
+	}
+}
+
+@media (max-width: 812px) and (orientation: landscape)
+{
+	#chatbot-container
+	{
+		top: 0%;
+		left: 0%;
+		@include width_height(100%, 100%);
+	}
+
+	#chatbot-header
+	{
+		@include grid_template(10% 70% 20%, 50% 50%);
+    	grid-template-areas:
+        "backButtonChatBot logo logo"
+        "backButtonChatBot searchChatBot close-button";
+	}
+
+	.logoChatBot > img
+	{
+    	@include width_height(26%, 100%);
+	}
+
+	#backButtonChatBot
+	{
+		width: 64%;
+	}
+
+	#close-button
+	{
+		width: 60% !important;
+		margin-top: 28% !important;
+	}
+
+	#button-right
+	{
+		margin-top: -96% !important;
+	}
+
+	.logoChatBot
+	{
+		margin-top: -4%;
+	}
+
+	#Chatbot-Panel
+	{
+		padding: 0%;
+	}
+
+	.show-principal-panel
+	{
+		width: 38%;
+		margin: 0px auto;
+	}
+
+	#email-panel
+	{
+		@include width_height(38%, 95%);
+		margin: 0px auto;
+		margin-top: -10%;
+	}
+
+	#quetiones-panel
+	{
+		@include width_height(38%, 108%);
+		margin: 0px auto;
+	}
+
+	.catogories-panel
+	{
+		width: 38%;
+		margin: 0px auto;
+	}
+
+	#answer-panel
+	{
+		@include width_height(38%, 100%);
+		margin: 0px auto;
+    	margin-top: -1%;
+	}
+}
+
+@media (max-width: 500px)
+{
+	.chatbot
+	{
+		position: fixed;
+		top: 85%;
+		right: 4%;
+		@include width_height(14%, 50px);
+	}
+}
+
+@media (max-width: 625px) and (orientation:portrait)
+{
+	#chatbot-container
+	{
+		top: 0%;
+		left: 0%;
+		@include width_height(100%, 100%);
+	}
+
+	#logoChatbot-principal
+	{
+		margin-left: -15%;
+	}
+
+	.logoToCenter
+	{
+		animation: logoToCenter 300ms linear;
+		margin-left: 5% !important;
+		transform: translateX(0%);
+	}
+
+	@keyframes logoToCenter
+	{
+		0%
+		{
+			transform: translateX(0%);
+		}
+
+		100%
+		{
+			transform: translateX(0%);
+		}
+	}
+
+	.logoToMidLeft
+	{
+		animation: logoToMidLeft 300ms linear;
+		margin-left: 5% !important;
+		transform: translateX(0%);
+	}
+
+	@keyframes logoToMidLeft
+	{
+		0%
+		{
+			transform: translateX(0%);
+		}
+
+		100%
+		{
+			transform: translateX(0%);
+		}
+	}
+
+	#chatbot-header
+	{
+		@include grid_template(10% 70% 20%, 20% 80%);
+		grid-template-areas: 
+		"backButtonChatBot logo close-button"
+		"searchChatBot searchChatBot searchChatBot";
+	}
+
+	#backButtonChatBot
+	{
+		width: 100%;
+	}
+
+	.logoChatBot > img
+	{
+    	@include width_height(45%, 100%);
+	}
+
+	#close-button
+	{
+		width: 85% !important;
+		margin-left: -10% !important;
+	}
+
+	#button-right
+	{
+		margin-top: -6% !important;
+	}
+
+	.logoChatBot
+	{
+		margin-top: 0%;
+	}
+
+	#Chatbot-Panel
+	{
+		padding: 0%;
+	}
+
+	.show-principal-panel
+	{
+		width: 95%;
+		margin: 0px auto;
+	}
+
+	#email-panel
+	{
+		@include width_height(84%, 95%);
+		margin: 0px auto;
+		margin-top: -10%;
+	}
+
+	#quetiones-panel
+	{
+		@include width_height(95%, 116%);
+		margin: 0px auto;
+		margin-top: -6%;
+	}
+
+	.catogories-panel
+	{
+		width: 89%;
+		margin: 0px auto;
+	}
+
+	#answer-panel
+	{
+		@include width_height(95%, 106%);
+		margin: 0px auto;
+    	margin-top: -6%;
+	}
+}
+
+@media (max-width: 320px)
+{
+	.chatbot
+	{
+		position: fixed;
+		top: 85%;
+		right: 5%;
+		@include width_height(16%, 50px);
+	}
+
+	.logoToCenter
+	{
+		animation: logoToCenter 300ms linear;
+		margin-left: 5% !important;
+		transform: translateX(0%);
+	}
+
+	@keyframes logoToCenter
+	{
+		0%
+		{
+			transform: translateX(0%);
+		}
+
+		100%
+		{
+			transform: translateX(0%);
+		}
+	}
+
+	.logoToMidLeft
+	{
+		animation: logoToMidLeft 300ms linear;
+		margin-left: 5% !important;
+		transform: translateX(0%);
+	}
+
+	@keyframes logoToMidLeft
+	{
+		0%
+		{
+			transform: translateX(0%);
+		}
+
+		100%
+		{
+			transform: translateX(0%);
+		}
+	}
+}
+
+@media (max-width: 280px)
+{
+	.chatbot
+	{
+		position: fixed;
+		top: 85%;
+		right: 8%;
+		@include width_height(18%, 50px);
+	}
+
+	.logoToCenter
+	{
+		animation: logoToCenter 300ms linear;
+		margin-left: 5% !important;
+		transform: translateX(0%);
+	}
+
+	@keyframes logoToCenter
+	{
+		0%
+		{
+			transform: translateX(0%);
+		}
+
+		100%
+		{
+			transform: translateX(0%);
+		}
+	}
+
+	.logoToMidLeft
+	{
+		animation: logoToMidLeft 300ms linear;
+		margin-left: 5% !important;
+		transform: translateX(0%);
+	}
+
+	@keyframes logoToMidLeft
+	{
+		0%
+		{
+			transform: translateX(0%);
+		}
+
+		100%
+		{
+			transform: translateX(0%);
+		}
+	}
+}
+
+/*--------------------------------------------------------------------------------------------------
+---------------------------------------END CHATBOT------------------------------------------------
+---------------------------------------------------------------------------------------------------*/

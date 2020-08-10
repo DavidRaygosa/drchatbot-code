@@ -1,0 +1,265 @@
+    <!DOCTYPE html>
+    <html lang="es">
+      <head>
+        <meta charset="utf-8">
+        <title>Node js Email </title>
+        <meta name="viewport" content="width=device-width, user-scalable=no"/>
+        <style type="text/css">
+
+          #general-container
+          {
+            width: 95%;
+            height: 100%;
+            padding: 5%;
+            /* background-color: #37bcf9; */
+            background-color: #ccc;
+          }
+
+          #container
+          {
+            display: grid;
+            width: 100%;
+          }
+
+          #title
+          {
+            width: 95%;
+            font-size: 20px;
+            color: #444;
+          }
+
+          img
+          {
+            display: block;
+            width: 45%;
+            margin-left: 28%;
+          }
+
+          #title_text
+          {
+            display: block;
+            text-align: center;
+            margin-top: 5%;
+          }
+
+          #subtitle
+          {
+            display: block;
+            width: 100%;
+            font-size: 30px;
+            color: #444;
+            text-align: center;
+          }
+
+          #message
+          {
+          }
+
+          #message_title
+          {
+            background-color: white;
+            text-align: center;
+            width: 85%;
+            margin-top: 5%;
+            padding: 5%;
+            font-size: 16px;
+            color: #444;
+            font-weight: bold;
+            font-family: sans-serif;
+          }
+
+          #link
+          {
+            text-decoration: none;
+            font-size: 14px;
+            color: #f7931d;
+          }
+
+          #link_footer
+          {
+            text-decoration: none;
+            font-size: 20px;
+            color: #6bae7c;
+          }
+
+          #message_data
+          {
+            background-color: white;
+            width: 85%;
+            margin-top: 5%;
+            padding: 5%;
+            overflow-x: hidden;
+          }
+
+          #message_data_name
+          {
+            display: block;
+            font-weight: normal;
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 2%;
+          }
+
+          #message_data_lastname
+          {
+            display: block;
+            font-weight: normal;
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 2%;
+          }
+
+          #message_data_email
+          {
+            display: block;
+            font-weight: normal;
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 2%;
+          }
+
+          #message_data_number
+          {
+            display: block;
+            font-weight: normal;
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 2%;
+          }
+
+          #messa_data_message_title
+          {
+            display: block;
+            font-weight: normal;
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 2%;
+          }
+
+          #message_data_message
+          {
+            font-weight: normal;
+            width: 90%;
+            min-height: 150px;
+            max-width: 90%;
+            min-width: 90%;
+            font-size: 16px;
+            color: #444;
+            margin-bottom: 2%;
+            padding: 5%;
+          }
+
+          #message_title_title
+          {
+            display: block;
+            text-align: center;
+          }
+
+          #message_title_subtitle
+          {
+            display: block;
+            margin-top: 5%;
+            font-weight: normal;
+            text-align: center;
+            font-size: 14px;
+            color: #444;
+          }
+
+          #message_title_footer
+          {
+            display: block;
+            font-weight: normal;
+            text-align: center;
+            margin-top: 5%;
+            font-size: 14px;
+          }
+
+          #footer
+          {
+            margin-top: 5%;
+            height: 80px;
+            text-align: center;
+          }
+
+          #footer_title
+          {
+            display: block;
+            margin-top: 8%;
+            text-align: center;
+          }
+
+          #footer_title_title
+          {
+            text-align: center;
+          }
+
+          @media (max-width: 650px)
+          {
+            #message_title
+            {
+              width: 90%;
+            }
+
+            #message_data
+            {
+              width: 90%;
+            }
+
+            #title
+            {
+              width: 100%;
+            }
+          }
+
+        </style>
+      </head>
+      <body>
+        <div id="general-container">
+
+          <div id="container">
+
+            <div id="title">
+              <img src="./Logo/Logo.png"/>
+
+              <!-- https://desarrolloweb.com/storage/tag_images/actual/NTyqDTKED8kFAhWxUzUwFGQJacxNoQBfFekELDya.png -->
+              <span id="title_text">
+                DRChatBot
+              </span>
+              <span id="subtitle">Nuevo Mensaje</span>
+            </div>
+
+            <div id="message_title"> 
+              <span id="message_title_title">
+                Hola:
+              </span>
+              <span id="message_title_subtitle">
+                Se ha recibido un nuevo mensaje desde el chatbot DRChatBot
+              </span>
+              <span id="message_title_footer">
+                ¡Ponte en Contacto!
+              </span>
+            </div>              
+
+            <div id="message_data">
+              <span id="message_data_name">Nombre: <%= params.nameChatbotEmail %> </span>
+
+              <span id="message_data_lastname">Apellido: <%= params.lastnameChatbotEmail %> </span>
+
+              <span id="message_data_email">Email: <%= params.EmailChatbotEmail %> </span>
+
+              <!-- <span id="message_data_number">Telefono: <%= params.number %> </span> -->
+
+              <span id="messa_data_message_title"> Mensaje: </span>
+              <textarea id="message_data_message"> <%= params.EmailChatbotMessage %> </textarea>
+            </div>
+
+            <footer id="footer">
+              <div id="footer_title">  
+                <span id="footer_title_title"> <a id="link_footer"> DRChatBot &copy; </a> </span>
+              </div>
+            </footer>
+
+          </div>
+        </div>
+      </body>
+    </html>
